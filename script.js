@@ -25,29 +25,26 @@ const factorize = (n) => {
 };
 
 const handleChange = (e) => {
-  const factor = factorize(e.value);
-  if (factor >= 0) {
-    console.debug("factor ", factor);
-  } else if (factor === -2) {
-    sendAlert("Error, debe introducir un número");
-  } else if (factor === -1) {
-    sendAlert("Error, debe introducir un número mayor a 0");
+  const result = document.querySelector("#result");
+  const containerAlert = document.querySelector("#alert");
+  if (result && containerAlert) {
+    result.innerText = "";
+    containerAlert.innerHTML = "";
+    const factor = factorize(e.value);
+    if (factor >= 0) {
+      result.innerText = "Factorizado " + factor;
+    } else if (factor === -2) {
+      sendAlert("Error, debe introducir un número", containerAlert);
+    } else if (factor === -1) {
+      sendAlert("Error, debe introducir un número mayor a 0", containerAlert);
+    }
   }
 };
 
-const sendAlert = (msg) => {
+const sendAlert = (msg, container) => {
   const alert = document.createElement("div");
   alert.className = "alert alert-danger";
   alert.role = "alert";
   alert.innerText = msg;
-
-  const container = document.querySelector("#alert");
-
-  if (container) {
-    const child = container.querySelector("div[role='alert']");
-    if (child) {
-      container.removeChild(child);
-    }
-    container.appendChild(alert);
-  }
+  container.appendChild(alert);
 };
